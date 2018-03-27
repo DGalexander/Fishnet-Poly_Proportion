@@ -4,9 +4,9 @@
 setwd("~/Fishnet")
 
 ## Load the Packages
-library(raster)
 library(proj4)
 library(GISTools)
+library(rgdal)
 
 ## Setup Boundary and Fishnet ##
 
@@ -14,10 +14,11 @@ library(GISTools)
 bng <- '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs'
 
 # Load a .shp file
-pdnp <- shapefile("PDNP.shp")
+pdnp <- readOGR("PDNP.shp")
 
 # Change to British National Grid
-pdnp <- spTransform(pdnp, bng)
+proj4string(pdnp) <- CRS(bng)
+
 
 # Create a bounding box
 bb <- bbox(pdnp)
@@ -40,3 +41,33 @@ pl <- pointLabel(Lon, Lat, Names, offset = 0, cex = .7)
 
 # Overlay the Polygon
 plot(pdnp, add = T)
+
+
+#### Take proportions from the layers ####
+
+# Intersect the two layers
+pdnp_grd <- gIntersection(grd.layer, pdnp, byid = T)
+
+# Take a look
+plot(pdnp_grd)
+names(pdnp_grd)
+
+# Split the names so we can query the data
+row.names(pdnp_grd) <- (substring(names(pdnp_grd), 2))
+pdnp_grd_id <- strsplit(names(pdnp_grd), " ")
+pdnp_grd_id <- (sapply(pdnp_grd_id, "[[",1))
+
+
+# Generate area and proportions
+pdnp_grd_area <- gArea(pdnp_grd, byid = T)
+grd.layer_area <- gArea(grd.layer, byid = T)
+
+# match these
+index <- match(pdnp_grd_id, grd.layer$ID)
+grd.layer_area <- grd.layer_area[index]
+
+# Create a Data Frame
+proportion <- pdnp_grd_area / grd.layer_area  * 100
+df <- data.frame(grd.layer_area, pdnp_grd_area, proportion)
+
+View(df)
