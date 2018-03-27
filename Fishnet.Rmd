@@ -84,31 +84,7 @@ df <- data.frame(grd.layer_area, pdnp_grd_area, proportion)
 
 ```
 
-
-
-
 ```{r}
 print(df)
-```
-
-
-
-
-```{r}
-
-```
-
-
-
-
-```{r}
-
-```
-
-
-
-
-```{r}
-
 ```
 
