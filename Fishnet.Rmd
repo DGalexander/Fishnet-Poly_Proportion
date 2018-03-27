@@ -7,8 +7,6 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Example of using assign area values of two spatial data sets
-
 ```{r}
 ## Wd
 setwd("~/Fishnet")
