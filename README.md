@@ -4,7 +4,7 @@ R Code for determining the proportion of a polygon overlaid with a grid for anal
 
 The example using cell size 1000m*1000m below
 
-![PDNP Grid](https://github.com/DGalexander/fishnet-poly-proportion/blob/master/Rplot.png)
+![PDNP Grid](https://github.com/DGalexander/fishnet-poly-proportion/blob/master/pdnp_plot.png)
 
 **grd.number**|**grd.layer_area**|**pdnp_.grd_area**|**proportion**
 :-----:|:-----:|:-----:|:-----:
